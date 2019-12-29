@@ -1,3 +1,4 @@
+const fs = require('fs');
 //adds one day to the date
 Date.prototype.addOneDay = function() {
     var date = new Date(this.valueOf());
@@ -28,6 +29,7 @@ function printCalendar(calendar){
         i++;
     }
     console.log(output);
+    fs.appendFile("./README.md",output,()=>console.log("wrote to file"));
 }
 
 let myCalendar = [
@@ -39,4 +41,10 @@ let myCalendar = [
     "Started using git, began the main piet interpreter"
 ]
 
+function writeToMD(){
+    
+}
+
 printCalendar(myCalendar);
+
+writeToMD();

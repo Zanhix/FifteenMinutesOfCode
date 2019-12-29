@@ -1,5 +1,11 @@
-
-
+var pixels = require('image-pixels');
+ 
+// load single source
+async function getData(){
+    var {data, width, height} = await pixels('helloworld.gif');
+    console.log(data);
+}
+getData();
 function hexToHueLum(hexcode){
     let conversionTable = {"FFC0C0":["light","red"],
     "FFFFC0":["light","yellow"],
@@ -68,4 +74,4 @@ function readPiet(imageArray){
     }
 }
 let imageArray=[["FFFFFF"]];
-readPiet(imageArray);
+//readPiet(imageArray);
