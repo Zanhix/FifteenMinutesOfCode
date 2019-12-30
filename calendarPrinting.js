@@ -24,12 +24,12 @@ function printCalendar(calendar){
     let today = new Date();
     while (startingDate<today) {
         output += 
-        "\n***************\n* "+startingDate.yyyymmdd()+"  * ==>  "+calendar[i]+"\n***************\n";
+        "\n- "+startingDate.yyyymmdd()+"\n   - "+calendar[i];
         startingDate = startingDate.addOneDay();
         i++;
     }
     console.log(output);
-    fs.appendFile("./README.md",output,()=>console.log("wrote to file"));
+    //fs.appendFile("./README.md",output,()=>console.log("wrote to file"));
 }
 
 let myCalendar = [
@@ -38,11 +38,12 @@ let myCalendar = [
     "Piet operations reader",
     "Piet Op reader cycle & hextoHueLum Converter",
     "HextoHueLum Converter & understood piet CC & DP",
-    "Started using git, began the main piet interpreter"
+    "Started using git, began the main piet interpreter",
+    "Printed calendar in MD and began image reading"
 ]
 
 function writeToMD(){
-    
+    fs.appendFile("./README.md","\n- "+(new Date()).yyyymmdd()+"\n   - "+myCalendar[myCalendar.length-1],()=>console.log("wrote to file"));
 }
 
 printCalendar(myCalendar);
