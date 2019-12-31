@@ -18,3 +18,5 @@ My first objective was to print out a calendar, here it is:
    - Started using git, began the main piet interpreter
 - 30/12/2019
    - Printed calendar in MD and began image reading
+- 31/12/2019
+   - finished image reading

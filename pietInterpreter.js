@@ -6,27 +6,30 @@ async function getData(){
     let convertedData=[];
     data.forEach(e=>{
         if(e==0){
-            console.log("y");
             convertedData.push( "00");
         }else if (e==255){
-            console.log("y2");
             convertedData.push( "FF");
         }else if (e==192){
-            console.log("y3");
             convertedData.push( "C0");
         }
     });
     let newConverteddata =[];
     convertedData.forEach((elt,i)=>{
-        if(i%3==0){
+        if(i%4==0){
             newConverteddata.push(convertedData[i]+convertedData[i+1]+convertedData[i+2]);
         }
     });
     let dataInConv=[];
-    newConverteddata.forEach((elt,i=>{
-        
-    }));
-    console.log(newConverteddata);
+    let j=-1;
+    newConverteddata.forEach((elt,i)=>{
+        if(i%width==0){
+            j++;
+            dataInConv[j]=[];
+        }
+        dataInConv[j][i%width]=elt;
+    });
+    let finalData = dataInConv.map(e=>e.map(e2=>hexToHueLum(e2)));
+    console.log(finalData[66])
 }
 getData();
 function hexToHueLum(hexcode){
@@ -53,9 +56,7 @@ function hexToHueLum(hexcode){
     return conversionTable[hexcode];
 }
 
-function testfuncObj(){
-    console.log("swag");
-}
+
 function getOperation (formerlight,formerhue,light,hue){
     let hues=["red","yellow","green","cian","blue","magenta"];
     let lums=["light","normal","dark"];

@@ -39,7 +39,8 @@ let myCalendar = [
     "Piet Op reader cycle & hextoHueLum Converter",
     "HextoHueLum Converter & understood piet CC & DP",
     "Started using git, began the main piet interpreter",
-    "Printed calendar in MD and began image reading"
+    "Printed calendar in MD and began image reading",
+    "finished image reading"
 ]
 
 function writeToMD(){
