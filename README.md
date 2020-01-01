@@ -20,3 +20,5 @@ My first objective was to print out a calendar, here it is:
    - Printed calendar in MD and began image reading
 - 31/12/2019
    - finished image reading
+- 01/01/2020
+   - linked getData and getOperation

@@ -24,7 +24,7 @@ function printCalendar(calendar){
     let today = new Date();
     while (startingDate<today) {
         output += 
-        "\n- "+startingDate.yyyymmdd()+"\n   - "+calendar[i];
+        "\n***************\n* "+startingDate.yyyymmdd()+"  * ==>  "+calendar[i]+"\n***************\n";
         startingDate = startingDate.addOneDay();
         i++;
     }
@@ -40,7 +40,8 @@ let myCalendar = [
     "HextoHueLum Converter & understood piet CC & DP",
     "Started using git, began the main piet interpreter",
     "Printed calendar in MD and began image reading",
-    "finished image reading"
+    "finished image reading",
+    "linked getData and getOperation"
 ]
 
 function writeToMD(){

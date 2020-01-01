@@ -29,7 +29,7 @@ async function getData(){
         dataInConv[j][i%width]=elt;
     });
     let finalData = dataInConv.map(e=>e.map(e2=>hexToHueLum(e2)));
-    console.log(finalData[66])
+    return finalData;
 }
 getData();
 function hexToHueLum(hexcode){
@@ -85,17 +85,21 @@ function readPiet(imageArray){
     let dp=0; // values of dp 0-> right 1-> bottom , 2-> left 3->top
     let x=0;
     let y=0;
-    let pastColor;
-    let currentColor;
+    let pl,ph;
+    let cl,ch;
     let keepRunning=true;
     while(keepRunning){
-        pastColor=imageArray[x][y];
+        [pl,ph]=imageArray[y][x];
         /* update x and y */
-        currentColor=imageArray[x][y];
-        let [pl,ph] = hexToHueLum(pastColor);
-        let [cl,ch] = hexToHueLum(currentColor)
-        getOperation(pl,ph,cl,ch)();
+        [cl,ch]=imageArray[y][x+15];
+        console.log(getOperation(pl,ph,cl,ch));
     }
 }
-let imageArray=[["FFFFFF"]];
 //readPiet(imageArray);
+
+async function program(){
+    let image = await getData();
+    readPiet(image);
+}
+
+program();
