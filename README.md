@@ -22,3 +22,5 @@ My first objective was to print out a calendar, here it is:
    - finished image reading
 - 01/01/2020
    - linked getData and getOperation
+- 02/01/2020
+   - finaly understood CC and DP

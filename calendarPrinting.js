@@ -41,7 +41,8 @@ let myCalendar = [
     "Started using git, began the main piet interpreter",
     "Printed calendar in MD and began image reading",
     "finished image reading",
-    "linked getData and getOperation"
+    "linked getData and getOperation",
+    "finaly understood CC and DP"
 ]
 
 function writeToMD(){
