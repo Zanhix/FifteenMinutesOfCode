@@ -42,7 +42,8 @@ let myCalendar = [
     "Printed calendar in MD and began image reading",
     "finished image reading",
     "linked getData and getOperation",
-    "finaly understood CC and DP"
+    "finaly understood CC and DP",
+    "started floodfill algorithm"
 ]
 
 function writeToMD(){

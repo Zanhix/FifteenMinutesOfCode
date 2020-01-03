@@ -24,3 +24,5 @@ My first objective was to print out a calendar, here it is:
    - linked getData and getOperation
 - 02/01/2020
    - finaly understood CC and DP
+- 03/01/2020
+   - started floodfill algorithm

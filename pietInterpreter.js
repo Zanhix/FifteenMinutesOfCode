@@ -80,6 +80,57 @@ function getOperation (formerlight,formerhue,light,hue){
     return ops[lumval][hueval]
 }
 
+function getExtreme(coordinatesArray,cc,dp){    
+    let maxmain=Number.NEGATIVE_INFINITY;
+    let maxsec=Number.NEGATIVE_INFINITY;
+    let coord;
+    coordinatesArray.forEach(e=>{
+
+        if(e!=undefined){
+            let [x,y]=e;
+            switch (dp) {
+                case 0:
+                if(y>maxmain){
+                    y
+                }else if (y=maxmain){
+
+                }
+                    break;
+                case 1:
+
+                    break;
+
+                case 2:
+
+                    break;
+
+                case 3:
+
+                    break;
+            }
+        }
+    })
+}
+
+function floodfill(startX,startY,image,color,cc,dp){
+    image[startY][startX]="filled";
+    if(image[startY][startX+1]==color){
+        let a = floodfill(startX+1,startY,image,color,cc,dp);
+    }
+    if(image[startY+1][startX]==color){
+        let b =floodfill(startX,startY+1,image,color,cc,dp);
+    }
+    if(image[startY][startX-1]==color){
+        let c =floodfill(startX-1,startY,image,color,cc,dp);
+    }
+    if(image[startY-1][startX]==color){
+        let d = floodfill(startX,startY-1,image,color,cc,dp);
+    }
+    if(a==undefined&&b==undefined&&c==undefined&&d==undefined){
+        return [startX,startY];
+    }
+    return getExtreme([a,b,c,d,[startX,startY]],cc,dp);
+}
 function readPiet(imageArray){
     let cc=1; // values of cc -> -1 for left 1 for right
     let dp=0; // values of dp 0-> right 1-> bottom , 2-> left 3->top
