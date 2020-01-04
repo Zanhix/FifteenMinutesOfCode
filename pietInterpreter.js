@@ -29,9 +29,13 @@ async function getData(){
         dataInConv[j][i%width]=elt;
     });
     let finalData = dataInConv.map(e=>e.map(e2=>hexToHueLum(e2)));
+    console.log(finalData[0])
     return finalData;
 }
+
 getData();
+
+
 function hexToHueLum(hexcode){
     let conversionTable = {"FFC0C0":["light","red"],
     "FFFFC0":["light","yellow"],
@@ -82,7 +86,7 @@ function getOperation (formerlight,formerhue,light,hue){
 
 function getExtreme(coordinatesArray,cc,dp){    
     let maxmain=Number.NEGATIVE_INFINITY;
-    let maxsec=Number.NEGATIVE_INFINITY;
+    let minmain=Infinity;
     let coord;
     coordinatesArray.forEach(e=>{
 
@@ -90,22 +94,70 @@ function getExtreme(coordinatesArray,cc,dp){
             let [x,y]=e;
             switch (dp) {
                 case 0:
-                if(y>maxmain){
-                    y
-                }else if (y=maxmain){
-
-                }
+                    if(y>maxmain){
+                        maxmain=y;
+                        coord=[x,y];
+                    }else if (y==maxmain){
+                        if(cc==-1){
+                            if(coord[0]>x){
+                                coord=[x,y];
+                            }
+                        }else{
+                            if(coord[0]<x){
+                                coord=[x,y];
+                            }
+                        }
+                    }
                     break;
                 case 1:
-
+                    if(x>maxmain){
+                        maxmain=x;
+                        coord=[x,y];
+                    }else if (x==maxmain){
+                        if(cc==-1){
+                            if(coord[0]<y){
+                                coord=[x,y];
+                            }
+                        }else{
+                            if(coord[0]>y){
+                                coord=[x,y];
+                            }
+                        }
+                    }
                     break;
 
                 case 2:
-
+                    if(y<minmain){
+                        minmain=y;
+                        coord=[x,y];
+                    }else if (y==minmain){
+                        if(cc==-1){
+                            if(coord[0]<x){
+                                coord=[x,y];
+                            }
+                        }else{
+                            if(coord[0]>x){
+                                coord=[x,y];
+                            }
+                        }
+                    }
                     break;
 
                 case 3:
-
+                    if(x<minmain){
+                        minmain=x;
+                        coord=[x,y];
+                    }else if (x==minmain){
+                        if(cc==-1){
+                            if(coord[0]>y){
+                                coord=[x,y];
+                            }
+                        }else{
+                            if(coord[0]<y){
+                                coord=[x,y];
+                            }
+                        }
+                    }
                     break;
             }
         }
@@ -114,16 +166,16 @@ function getExtreme(coordinatesArray,cc,dp){
 
 function floodfill(startX,startY,image,color,cc,dp){
     image[startY][startX]="filled";
-    if(image[startY][startX+1]==color){
+    if(image[startX+1][startY]==color){
         let a = floodfill(startX+1,startY,image,color,cc,dp);
     }
-    if(image[startY+1][startX]==color){
+    if(image[startX][startY+1]==color){
         let b =floodfill(startX,startY+1,image,color,cc,dp);
     }
-    if(image[startY][startX-1]==color){
+    if(image[startX-1][startY]==color){
         let c =floodfill(startX-1,startY,image,color,cc,dp);
     }
-    if(image[startY-1][startX]==color){
+    if(image[startX][startY-1]==color){
         let d = floodfill(startX,startY-1,image,color,cc,dp);
     }
     if(a==undefined&&b==undefined&&c==undefined&&d==undefined){
@@ -140,10 +192,10 @@ function readPiet(imageArray){
     let cl,ch;
     let keepRunning=true;
     while(keepRunning){
-        [pl,ph]=imageArray[y][x];
+        [pl,ph]=imageArray[x][y];
         /* update x and y */
-        [cl,ch]=imageArray[y][x+15];
-        console.log(getOperation(pl,ph,cl,ch));
+        [cl,ch]=imageArray[x+15][y];
+        getOperation(pl,ph,cl,ch);
     }
 }
 //readPiet(imageArray);

@@ -26,3 +26,5 @@ My first objective was to print out a calendar, here it is:
    - finaly understood CC and DP
 - 03/01/2020
    - started floodfill algorithm
+- 04/01/2020
+   - added getExtreme Function

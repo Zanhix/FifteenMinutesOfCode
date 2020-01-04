@@ -43,7 +43,8 @@ let myCalendar = [
     "finished image reading",
     "linked getData and getOperation",
     "finaly understood CC and DP",
-    "started floodfill algorithm"
+    "started floodfill algorithm",
+    "added getExtreme Function"
 ]
 
 function writeToMD(){
