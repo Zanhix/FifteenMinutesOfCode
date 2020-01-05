@@ -44,7 +44,8 @@ let myCalendar = [
     "linked getData and getOperation",
     "finaly understood CC and DP",
     "started floodfill algorithm",
-    "added getExtreme Function"
+    "added getExtreme Function",
+    "Floodfill is working"
 ]
 
 function writeToMD(){

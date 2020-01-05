@@ -1,8 +1,10 @@
 # FifteenMinutesOfCode
 Everyday, starting 24th of December 2019
 
-My first objective was to print out a calendar, here it is:
+The main project i have started doing, is creating a PIET interpreter.
+Piet being an isoteric language using images as code.
 
+My first objective was to print out a calendar, here it is:
 
 - 24/12/2019
    - Started printing calendar
@@ -28,3 +30,5 @@ My first objective was to print out a calendar, here it is:
    - started floodfill algorithm
 - 04/01/2020
    - added getExtreme Function
+- 05/01/2020
+   - Floodfill is working

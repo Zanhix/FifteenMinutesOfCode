@@ -85,6 +85,7 @@ function getOperation (formerlight,formerhue,light,hue){
 }
 
 function getExtreme(coordinatesArray,cc,dp){    
+    console.log(coordinatesArray)
     let maxmain=Number.NEGATIVE_INFINITY;
     let minmain=Infinity;
     let coord;
@@ -165,23 +166,44 @@ function getExtreme(coordinatesArray,cc,dp){
 }
 
 function floodfill(startX,startY,image,color,cc,dp){
-    image[startY][startX]="filled";
-    if(image[startX+1][startY]==color){
-        let a = floodfill(startX+1,startY,image,color,cc,dp);
+    let positions =[[startX,startY]];
+    image[startX][startY]="filled";
+    let keepgoin=true;
+    while(keepgoin){
+        keepgoin=false;
+        positions.forEach(([startX,startY])=>{
+            console.log(startX,startY)
+            let a,b,c,d;
+            if(image[startX+1]!=undefined&&image[startX+1][startY]!=undefined&&image[startX+1][startY][0]==color[0]&&image[startX+1][startY][1]==color[1]){
+                console.log("a");
+                a=1;
+                image[startX+1][startY]="filled";
+                positions.push([startX+1,startY]);
+            }
+            if(image[startX]!=undefined&&image[startX][startY+1]!=undefined&&image[startX][startY+1][0]==color[0]&&image[startX][startY+1][1]==color[1]){
+                console.log("b");
+                b=1;
+                image[startX][startY+1]="filled";
+                positions.push([startX,startY+1]);
+            }
+            if(image[startX-1]!=undefined&&image[startX-1][startY]!=undefined&&image[startX-1][startY][0]==color[0]&&image[startX-1][startY][1]==color[1]){
+                console.log("c");
+                c=1;
+                image[startX-1][startY]="filled";
+                positions.push([startX-1,startY]);
+            }
+            if(image[startX]!=undefined&&image[startX][startY-1]!=undefined&&image[startX][startY-1][0]==color[0]&&image[startX][startY-1][1]==color[1]){
+                console.log("d");
+                d=1;
+                image[startX][startY-1]="filled";
+                positions.push([startX,startY-1]);
+            }
+            if(!(a===undefined&&b===undefined&&c===undefined&&d===undefined)){
+                keepgoin=true;
+            }
+        });
     }
-    if(image[startX][startY+1]==color){
-        let b =floodfill(startX,startY+1,image,color,cc,dp);
-    }
-    if(image[startX-1][startY]==color){
-        let c =floodfill(startX-1,startY,image,color,cc,dp);
-    }
-    if(image[startX][startY-1]==color){
-        let d = floodfill(startX,startY-1,image,color,cc,dp);
-    }
-    if(a==undefined&&b==undefined&&c==undefined&&d==undefined){
-        return [startX,startY];
-    }
-    return getExtreme([a,b,c,d,[startX,startY]],cc,dp);
+    return getExtreme(positions,cc,dp);
 }
 function readPiet(imageArray){
     let cc=1; // values of cc -> -1 for left 1 for right
@@ -202,7 +224,7 @@ function readPiet(imageArray){
 
 async function program(){
     let image = await getData();
-    readPiet(image);
+    console.log(floodfill(0,0,image,["normal","yellow"],1,0));
 }
 
 program();
