@@ -29,7 +29,6 @@ async function getData(){
         dataInConv[j][i%width]=elt;
     });
     let finalData = dataInConv.map(e=>e.map(e2=>hexToHueLum(e2)));
-    console.log(finalData[0])
     return finalData;
 }
 
@@ -85,7 +84,6 @@ function getOperation (formerlight,formerhue,light,hue){
 }
 
 function getExtreme(coordinatesArray,cc,dp){    
-    console.log(coordinatesArray)
     let maxmain=Number.NEGATIVE_INFINITY;
     let minmain=Infinity;
     let coord;
@@ -162,7 +160,8 @@ function getExtreme(coordinatesArray,cc,dp){
                     break;
             }
         }
-    })
+    });
+    return coord;
 }
 
 function floodfill(startX,startY,image,color,cc,dp){
@@ -172,28 +171,23 @@ function floodfill(startX,startY,image,color,cc,dp){
     while(keepgoin){
         keepgoin=false;
         positions.forEach(([startX,startY])=>{
-            console.log(startX,startY)
             let a,b,c,d;
             if(image[startX+1]!=undefined&&image[startX+1][startY]!=undefined&&image[startX+1][startY][0]==color[0]&&image[startX+1][startY][1]==color[1]){
-                console.log("a");
                 a=1;
                 image[startX+1][startY]="filled";
                 positions.push([startX+1,startY]);
             }
             if(image[startX]!=undefined&&image[startX][startY+1]!=undefined&&image[startX][startY+1][0]==color[0]&&image[startX][startY+1][1]==color[1]){
-                console.log("b");
                 b=1;
                 image[startX][startY+1]="filled";
                 positions.push([startX,startY+1]);
             }
             if(image[startX-1]!=undefined&&image[startX-1][startY]!=undefined&&image[startX-1][startY][0]==color[0]&&image[startX-1][startY][1]==color[1]){
-                console.log("c");
                 c=1;
                 image[startX-1][startY]="filled";
                 positions.push([startX-1,startY]);
             }
             if(image[startX]!=undefined&&image[startX][startY-1]!=undefined&&image[startX][startY-1][0]==color[0]&&image[startX][startY-1][1]==color[1]){
-                console.log("d");
                 d=1;
                 image[startX][startY-1]="filled";
                 positions.push([startX,startY-1]);
@@ -214,17 +208,58 @@ function readPiet(imageArray){
     let cl,ch;
     let keepRunning=true;
     while(keepRunning){
+        console.log(x,y,cc,dp)
         [pl,ph]=imageArray[x][y];
-        /* update x and y */
-        [cl,ch]=imageArray[x+15][y];
-        getOperation(pl,ph,cl,ch);
+        let ccBuffer=cc;
+        let dpBuffer=dp;
+        let checkingRoutes=true;
+        let changecc=true;
+        while(checkingRoutes){
+            console.log(cc,dp)
+            let [newx,newy] = floodfill(x,y,imageArray,imageArray[x][y],cc,dp);
+            switch (dp) {
+                case 0:
+                    newy++;
+                    break;
+                case 1:
+                    newx++;
+                    break;
+                case 2:
+                    newy--;
+                    break;
+                case 3:
+                    newx--;
+                    break;
+
+                default:
+                    break;
+            }
+            if(imageArray[newx]==undefined||imageArray[newx][newy]==undefined||imageArray[newx][newy][0]=="black"){
+                if(changecc){
+                    cc=cc*(-1);
+                    changecc=false;
+                }else{
+                    changecc=true;
+                    dp=(dp+1)%4;
+                }
+                if(cc==ccBuffer&&dp==dpBuffer){
+                    keepRunning=false;
+                }
+            }
+        }
+        if(keepRunning){
+            [x,y]=[newx,newy];
+            [cl,ch]=imageArray[x][y];
+            console.log(getOperation(pl,ph,cl,ch));
+        }
+        
     }
 }
 //readPiet(imageArray);
 
 async function program(){
     let image = await getData();
-    console.log(floodfill(0,0,image,["normal","yellow"],1,0));
+    readPiet(image);
 }
 
 program();

@@ -32,3 +32,5 @@ My first objective was to print out a calendar, here it is:
    - added getExtreme Function
 - 05/01/2020
    - Floodfill is working
+- 06/01/2020
+   - getExtreme OK, working on navigation
