@@ -34,3 +34,5 @@ My first objective was to print out a calendar, here it is:
    - Floodfill is working
 - 06/01/2020
    - getExtreme OK, working on navigation
+- 07/01/2020
+   - navigation in progress

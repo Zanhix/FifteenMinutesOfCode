@@ -204,19 +204,19 @@ function readPiet(imageArray){
     let dp=0; // values of dp 0-> right 1-> bottom , 2-> left 3->top
     let x=0;
     let y=0;
-    let pl,ph;
-    let cl,ch;
     let keepRunning=true;
     while(keepRunning){
-        console.log(x,y,cc,dp)
-        [pl,ph]=imageArray[x][y];
+        let [pl,ph]=imageArray[x][y];
         let ccBuffer=cc;
+        let newx,newy;
         let dpBuffer=dp;
         let checkingRoutes=true;
         let changecc=true;
         while(checkingRoutes){
-            console.log(cc,dp)
-            let [newx,newy] = floodfill(x,y,imageArray,imageArray[x][y],cc,dp);
+            let flf = floodfill(x,y,imageArray,imageArray[x][y],cc,dp);
+            console.log(flf)
+            newx=flf[0];
+            newy=flf[1];
             switch (dp) {
                 case 0:
                     newy++;
@@ -235,6 +235,7 @@ function readPiet(imageArray){
                     break;
             }
             if(imageArray[newx]==undefined||imageArray[newx][newy]==undefined||imageArray[newx][newy][0]=="black"){
+                console.log("changedRoute",dp,cc)
                 if(changecc){
                     cc=cc*(-1);
                     changecc=false;
@@ -245,11 +246,16 @@ function readPiet(imageArray){
                 if(cc==ccBuffer&&dp==dpBuffer){
                     keepRunning=false;
                 }
+                console.log("changedRoute",dp,cc)
+            }else{
+                checkingRoutes=false;
             }
         }
         if(keepRunning){
-            [x,y]=[newx,newy];
-            [cl,ch]=imageArray[x][y];
+            x=newx;
+            y=newy;
+            let [cl,ch]=imageArray[x][y];
+            console.log([cl,ch]);
             console.log(getOperation(pl,ph,cl,ch));
         }
         

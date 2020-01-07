@@ -46,7 +46,8 @@ let myCalendar = [
     "started floodfill algorithm",
     "added getExtreme Function",
     "Floodfill is working",
-    "getExtreme OK, working on navigation"
+    "getExtreme OK, working on navigation",
+    "navigation in progress"
 ]
 
 function writeToMD(){
