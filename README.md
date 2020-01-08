@@ -36,3 +36,5 @@ My first objective was to print out a calendar, here it is:
    - getExtreme OK, working on navigation
 - 07/01/2020
    - navigation in progress
+- 08/01/2020
+   - printed stuff

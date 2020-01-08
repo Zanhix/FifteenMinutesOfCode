@@ -84,6 +84,7 @@ function getOperation (formerlight,formerhue,light,hue){
 }
 
 function getExtreme(coordinatesArray,cc,dp){    
+    console.log("in getExtr",cc,dp)
     let maxmain=Number.NEGATIVE_INFINITY;
     let minmain=Infinity;
     let coord;
@@ -161,10 +162,12 @@ function getExtreme(coordinatesArray,cc,dp){
             }
         }
     });
+    console.log("out getExtr",cc,dp)
     return coord;
 }
 
 function floodfill(startX,startY,image,color,cc,dp){
+    console.log("in flf",cc,dp)
     let positions =[[startX,startY]];
     image[startX][startY]="filled";
     let keepgoin=true;
@@ -197,6 +200,7 @@ function floodfill(startX,startY,image,color,cc,dp){
             }
         });
     }
+    console.log("out flf",cc,dp)
     return getExtreme(positions,cc,dp);
 }
 function readPiet(imageArray){
@@ -213,7 +217,9 @@ function readPiet(imageArray){
         let checkingRoutes=true;
         let changecc=true;
         while(checkingRoutes){
+            console.log("checking flf",x,y)
             let flf = floodfill(x,y,imageArray,imageArray[x][y],cc,dp);
+            console.log("checking flfout",flf)
             console.log(flf)
             newx=flf[0];
             newy=flf[1];
@@ -250,6 +256,7 @@ function readPiet(imageArray){
             }else{
                 checkingRoutes=false;
             }
+            console.log("checking routes",checkingRoutes)
         }
         if(keepRunning){
             x=newx;
@@ -269,3 +276,4 @@ async function program(){
 }
 
 program();
+
