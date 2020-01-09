@@ -61,7 +61,7 @@ function hexToHueLum(hexcode){
 
 
 function getOperation (formerlight,formerhue,light,hue){
-    let hues=["red","yellow","green","cian","blue","magenta"];
+    let hues=["red","yellow","green","cyan","blue","magenta"];
     let lums=["light","normal","dark"];
     let ops=[["nothing","add","divide","greater","duplicate","inchar"],
             ["push","substract","mod","pointer","roll","outnum"],
@@ -71,12 +71,12 @@ function getOperation (formerlight,formerhue,light,hue){
         return testfuncObj;
     }
     if(lums.indexOf(light)-lums.indexOf(formerlight)<0){
-        lumval = 3- lums.indexOf(light)-lums.indexOf(formerlight);
+        lumval = 3+ lums.indexOf(light)-lums.indexOf(formerlight);
     }else{
         lumval =lums.indexOf(light)-lums.indexOf(formerlight);
     }
     if(hues.indexOf(hue)-hues.indexOf(formerhue)<0){
-        hueval=6-hues.indexOf(hue)-hues.indexOf(formerhue);
+        hueval=6+hues.indexOf(hue)-hues.indexOf(formerhue);
     }else{
         hueval=hues.indexOf(hue)-hues.indexOf(formerhue);
     }
@@ -84,7 +84,6 @@ function getOperation (formerlight,formerhue,light,hue){
 }
 
 function getExtreme(coordinatesArray,cc,dp){    
-    console.log("in getExtr",cc,dp)
     let maxmain=Number.NEGATIVE_INFINITY;
     let minmain=Infinity;
     let coord;
@@ -162,12 +161,12 @@ function getExtreme(coordinatesArray,cc,dp){
             }
         }
     });
-    console.log("out getExtr",cc,dp)
     return coord;
 }
 
-function floodfill(startX,startY,image,color,cc,dp){
-    console.log("in flf",cc,dp)
+function floodfill(startX,startY,imageIN,color,cc,dp){
+    let image = [];
+    imageIN.forEach((a,i)=>image[i]=[...a]);
     let positions =[[startX,startY]];
     image[startX][startY]="filled";
     let keepgoin=true;
@@ -200,12 +199,11 @@ function floodfill(startX,startY,image,color,cc,dp){
             }
         });
     }
-    console.log("out flf",cc,dp)
     return getExtreme(positions,cc,dp);
 }
 function readPiet(imageArray){
-    let cc=1; // values of cc -> -1 for left 1 for right
-    let dp=0; // values of dp 0-> right 1-> bottom , 2-> left 3->top
+    var cc=1; // values of cc -> -1 for left 1 for right
+    var dp=0; // values of dp 0-> right 1-> bottom , 2-> left 3->top
     let x=0;
     let y=0;
     let keepRunning=true;
@@ -217,10 +215,7 @@ function readPiet(imageArray){
         let checkingRoutes=true;
         let changecc=true;
         while(checkingRoutes){
-            console.log("checking flf",x,y)
             let flf = floodfill(x,y,imageArray,imageArray[x][y],cc,dp);
-            console.log("checking flfout",flf)
-            console.log(flf)
             newx=flf[0];
             newy=flf[1];
             switch (dp) {
@@ -241,7 +236,6 @@ function readPiet(imageArray){
                     break;
             }
             if(imageArray[newx]==undefined||imageArray[newx][newy]==undefined||imageArray[newx][newy][0]=="black"){
-                console.log("changedRoute",dp,cc)
                 if(changecc){
                     cc=cc*(-1);
                     changecc=false;
@@ -252,17 +246,14 @@ function readPiet(imageArray){
                 if(cc==ccBuffer&&dp==dpBuffer){
                     keepRunning=false;
                 }
-                console.log("changedRoute",dp,cc)
             }else{
                 checkingRoutes=false;
             }
-            console.log("checking routes",checkingRoutes)
         }
         if(keepRunning){
             x=newx;
             y=newy;
             let [cl,ch]=imageArray[x][y];
-            console.log([cl,ch]);
             console.log(getOperation(pl,ph,cl,ch));
         }
         
@@ -276,4 +267,3 @@ async function program(){
 }
 
 program();
-

@@ -48,7 +48,8 @@ let myCalendar = [
     "Floodfill is working",
     "getExtreme OK, working on navigation",
     "navigation in progress",
-    "printed stuff"
+    "printed stuff",
+    "navigation working, only functions left"
 ]
 
 function writeToMD(){
