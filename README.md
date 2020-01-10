@@ -40,3 +40,5 @@ My first objective was to print out a calendar, here it is:
    - printed stuff
 - 09/01/2020
    - navigation working, only functions left
+- 10/01/2020
+   - coded a lot of functions

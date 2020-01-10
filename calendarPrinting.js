@@ -49,7 +49,8 @@ let myCalendar = [
     "getExtreme OK, working on navigation",
     "navigation in progress",
     "printed stuff",
-    "navigation working, only functions left"
+    "navigation working, only functions left",
+    "coded a lot of functions"
 ]
 
 function writeToMD(){

@@ -1,8 +1,12 @@
 var pixels = require('image-pixels');
+
+var cc=1; // values of cc -> -1 for left 1 for right
+var dp=0; // values of dp 0-> right 1-> bottom , 2-> left 3->top
+var stack = []; //Program stack
+var codelSize=1;
  
-// load single source
-async function getData(){
-    var {data, width, height} = await pixels('helloworld.gif');
+async function getData(proginput){
+    var {data, width, height} = await pixels(proginput);
     let convertedData=[];
     data.forEach(e=>{
         if(e==0){
@@ -32,8 +36,6 @@ async function getData(){
     return finalData;
 }
 
-getData();
-
 
 function hexToHueLum(hexcode){
     let conversionTable = {"FFC0C0":["light","red"],
@@ -59,13 +61,126 @@ function hexToHueLum(hexcode){
     return conversionTable[hexcode];
 }
 
+{
+    function push(){
+        stack.push(codelSize);
+    }
+    
+    function pop(){
+        stack.pop();
+    }
+    
+    function add(){
+        let a=stack.pop();
+        let b=stack.pop();
+        stack.push(a+b);
+    }
+    
+    function subtract(){
+        let a=stack.pop();
+        let b=stack.pop();
+        stack.push(b-a);
+    }
+    
+    function multiply(){
+        let a=stack.pop();
+        let b=stack.pop();
+        stack.push(a*b);
+    }
+    
+    function divide(){
+        let a=stack.pop();
+        let b=stack.pop();
+        if(a!=0){
+            stack.push(Math.round(b/a));
+        }
+    }
+    
+    function modulo(){
+        let a=stack.pop();
+        let b=stack.pop();
+        stack.push(b%a);
+    }
+    
+    function not(){
+        let a=stack.pop();
+        if(a==0){
+            stack.push(1);
+        }else{
+            stack.push(0);
+        }
+    }
+    
+    function greater(){
+        let a=stack.pop();
+        let b=stack.pop();
+        if(b>a){
+            stack.push(1);
+        }else{
+            stack.push(0);
+        }
+    }
+    
+    function pointer(){
+        let a=stack.pop();
+        dp=(dp+a)%4;
+    }
+    
+    function switchCC(){
+        let a=stack.pop();
+        if(Math.abs(a)%2!=0){
+            cc=cc*(-1);
+        }
+    }
+    
+    function duplicate(){
+        let a=stack.pop();
+        stack.push(a);
+        stack.push(a);
+    }
 
+    function outChar(){
+        console.log(stack.pop());
+    }
+
+    function outNum(){
+        console.log(stack.pop());
+    }
+
+    function roll(){
+        let tmp=[];
+        let loop_count = stack.pop();
+	    let depth = stack.pop();
+	    if (depth > 0) {
+	    	for (let i = 0; i < depth; i++) {
+	    		tmp.push_back(values.front());
+	    		values.pop_front();
+	    	}
+	    	if (loop_count > 0) {
+	    		for (let i = loop_count; i > 0; i--) {
+	    			tmp.push_back(tmp.front());
+	    			tmp.pop_front();
+	    		}
+	    	} else {
+	    		for (let i = loop_count; i < 0; i++) {
+	    			tmp.push_front(tmp.back());
+	    			tmp.pop_back();
+	    		}
+	    	}
+	    	for (let i = 0; i < depth; i++) {
+	    		values.push_front(tmp.back());
+	    		tmp.pop_back();
+	    	}
+	    }   
+    }
+}
+    
 function getOperation (formerlight,formerhue,light,hue){
     let hues=["red","yellow","green","cyan","blue","magenta"];
     let lums=["light","normal","dark"];
-    let ops=[["nothing","add","divide","greater","duplicate","inchar"],
-            ["push","substract","mod","pointer","roll","outnum"],
-            ["pop","multiply","not","switch","innum","outchar"]]
+    let ops=[[()=>console.log("nothing"),add,divide,greater,duplicate,()=>console.log("inchar")],
+            [push,subtract,modulo,pointer,()=>console.log("roll"),outNum],
+            [pop,multiply,not,switchCC,()=>console.log("innum"),outChar]]
     let hueval,lumval;
     if(formerlight=="white"||light=="white"){
         return testfuncObj;
@@ -199,11 +314,11 @@ function floodfill(startX,startY,imageIN,color,cc,dp){
             }
         });
     }
-    return getExtreme(positions,cc,dp);
+    return [getExtreme(positions,cc,dp),positions.length];
 }
+
+
 function readPiet(imageArray){
-    var cc=1; // values of cc -> -1 for left 1 for right
-    var dp=0; // values of dp 0-> right 1-> bottom , 2-> left 3->top
     let x=0;
     let y=0;
     let keepRunning=true;
@@ -215,7 +330,8 @@ function readPiet(imageArray){
         let checkingRoutes=true;
         let changecc=true;
         while(checkingRoutes){
-            let flf = floodfill(x,y,imageArray,imageArray[x][y],cc,dp);
+            let [flf,codelSize] = floodfill(x,y,imageArray,imageArray[x][y],cc,dp);
+        
             newx=flf[0];
             newy=flf[1];
             switch (dp) {
@@ -254,16 +370,50 @@ function readPiet(imageArray){
             x=newx;
             y=newy;
             let [cl,ch]=imageArray[x][y];
-            console.log(getOperation(pl,ph,cl,ch));
+            console.log(stack,codelSize);
+            getOperation(pl,ph,cl,ch)();
         }
         
     }
 }
-//readPiet(imageArray);
 
-async function program(){
-    let image = await getData();
+async function programReading(imagePietProgram){
+    let image = await getData(imagePietProgram);
     readPiet(image);
 }
 
-program();
+
+
+programReading('helloworld.gif');
+
+/*
+void PCalcStack::instrRoll()
+{
+	std::list<int> tmp;
+	int loop_count = values.front();
+	values.pop_front();
+	int depth = values.front();
+	values.pop_front();
+	if (depth > 0) {
+		for (int i = 0; i < depth; i++) {
+			tmp.push_back(values.front());
+			values.pop_front();
+		}
+		if (loop_count > 0) {
+			for (int i = loop_count; i > 0; i--) {
+				tmp.push_back(tmp.front());
+				tmp.pop_front();
+			}
+		} else {
+			for (int i = loop_count; i < 0; i++) {
+				tmp.push_front(tmp.back());
+				tmp.pop_back();
+			}
+		}
+		for (int i = 0; i < depth; i++) {
+			values.push_front(tmp.back());
+			tmp.pop_back();
+		}
+	}
+}
+*/
