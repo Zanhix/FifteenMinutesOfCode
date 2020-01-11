@@ -50,7 +50,8 @@ let myCalendar = [
     "navigation in progress",
     "printed stuff",
     "navigation working, only functions left",
-    "coded a lot of functions"
+    "coded a lot of functions",
+    "Hell  ,   l$l"
 ]
 
 function writeToMD(){

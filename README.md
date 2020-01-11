@@ -42,3 +42,5 @@ My first objective was to print out a calendar, here it is:
    - navigation working, only functions left
 - 10/01/2020
    - coded a lot of functions
+- 11/01/2020
+   - Hell  ,   l$l

@@ -140,7 +140,7 @@ function hexToHueLum(hexcode){
     }
 
     function outChar(){
-        console.log(stack.pop());
+        console.log(String.fromCharCode(stack.pop()));
     }
 
     function outNum(){
@@ -148,28 +148,27 @@ function hexToHueLum(hexcode){
     }
 
     function roll(){
+        console.log("roll");
         let tmp=[];
         let loop_count = stack.pop();
-	    let depth = stack.pop();
+        let depth = stack.pop();
+        stack.push(depth);
+        stack.push(loop_count);
 	    if (depth > 0) {
 	    	for (let i = 0; i < depth; i++) {
-	    		tmp.push_back(values.front());
-	    		values.pop_front();
+	    		tmp.unshift(stack.pop());
 	    	}
-	    	if (loop_count > 0) {
+	    	if (loop_count < 0) {
 	    		for (let i = loop_count; i > 0; i--) {
-	    			tmp.push_back(tmp.front());
-	    			tmp.pop_front();
+	    			tmp.push(tmp.shift());
 	    		}
 	    	} else {
 	    		for (let i = loop_count; i < 0; i++) {
-	    			tmp.push_front(tmp.back());
-	    			tmp.pop_back();
+	    			tmp.unshift(tmp.pop());
 	    		}
 	    	}
 	    	for (let i = 0; i < depth; i++) {
-	    		values.push_front(tmp.back());
-	    		tmp.pop_back();
+	    		stack.push(tmp.shift());
 	    	}
 	    }   
     }
@@ -179,11 +178,11 @@ function getOperation (formerlight,formerhue,light,hue){
     let hues=["red","yellow","green","cyan","blue","magenta"];
     let lums=["light","normal","dark"];
     let ops=[[()=>console.log("nothing"),add,divide,greater,duplicate,()=>console.log("inchar")],
-            [push,subtract,modulo,pointer,()=>console.log("roll"),outNum],
+            [push,subtract,modulo,pointer,roll,outNum],
             [pop,multiply,not,switchCC,()=>console.log("innum"),outChar]]
     let hueval,lumval;
     if(formerlight=="white"||light=="white"){
-        return testfuncObj;
+        return ()=>{};
     }
     if(lums.indexOf(light)-lums.indexOf(formerlight)<0){
         lumval = 3+ lums.indexOf(light)-lums.indexOf(formerlight);
@@ -370,7 +369,7 @@ function readPiet(imageArray){
             x=newx;
             y=newy;
             let [cl,ch]=imageArray[x][y];
-            console.log(stack,codelSize);
+          //  console.log(stack,codelSize);
             getOperation(pl,ph,cl,ch)();
         }
         
