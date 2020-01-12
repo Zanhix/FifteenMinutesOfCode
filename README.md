@@ -44,3 +44,5 @@ My first objective was to print out a calendar, here it is:
    - coded a lot of functions
 - 11/01/2020
    - Hell  ,   l$l
+- 12/01/2020
+   - Hello, world! , one program sort of works

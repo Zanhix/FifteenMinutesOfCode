@@ -2,7 +2,7 @@ var pixels = require('image-pixels');
 
 var cc=1; // values of cc -> -1 for left 1 for right
 var dp=0; // values of dp 0-> right 1-> bottom , 2-> left 3->top
-var stack = []; //Program stack
+var stack = [10 ,100 ,108 ,108  , 3  , 3  , 3   ,2]; //Program stack
 var codelSize=1;
  
 async function getData(proginput){
@@ -148,17 +148,18 @@ function hexToHueLum(hexcode){
     }
 
     function roll(){
-        console.log("roll");
+        //console.log("roll");
         let tmp=[];
         let loop_count = stack.pop();
         let depth = stack.pop();
-        stack.push(depth);
-        stack.push(loop_count);
+        //console.log(loop_count,depth,stack)
+        
 	    if (depth > 0) {
 	    	for (let i = 0; i < depth; i++) {
 	    		tmp.unshift(stack.pop());
-	    	}
-	    	if (loop_count < 0) {
+            }
+            //console.log("tmp",tmp,"st",stack);
+            if (loop_count <0) {
 	    		for (let i = loop_count; i > 0; i--) {
 	    			tmp.push(tmp.shift());
 	    		}
@@ -166,9 +167,10 @@ function hexToHueLum(hexcode){
 	    		for (let i = loop_count; i < 0; i++) {
 	    			tmp.unshift(tmp.pop());
 	    		}
-	    	}
+            }
+            //console.log("tmp",tmp)
 	    	for (let i = 0; i < depth; i++) {
-	    		stack.push(tmp.shift());
+	    		stack.push(tmp.pop());
 	    	}
 	    }   
     }
@@ -380,9 +382,11 @@ async function programReading(imagePietProgram){
     let image = await getData(imagePietProgram);
     readPiet(image);
 }
-
-
-
+/*
+console.log(stack);
+roll();
+console.log(stack);
+*/
 programReading('helloworld.gif');
 
 /*
