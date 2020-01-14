@@ -1,10 +1,11 @@
 var pixels = require('image-pixels');
+var readlineSync = require('readline-sync');
 
 var cc=1; // values of cc -> -1 for left 1 for right
 var dp=0; // values of dp 0-> right 1-> bottom , 2-> left 3->top
 var stack=[] //Program stack
 var codelSize=1;
-var pixelsSize=121;
+var pixelsSize=1;
  
 async function getData(proginput){
     var {data, width, height} = await pixels(proginput);
@@ -148,6 +149,14 @@ function hexToHueLum(hexcode){
         console.log(stack.pop());
     }
 
+    function inNum(){
+        stack.push(readlineSync.question('Number input requested: '));
+    }
+
+    function inChar(){
+        stack.push(readlineSync.question('Char input requested: ').charCodeAt(0));
+    }
+
     function roll(){
         //console.log("roll");
         let tmp=[];
@@ -180,9 +189,9 @@ function hexToHueLum(hexcode){
 function getOperation (formerlight,formerhue,light,hue){
     let hues=["red","yellow","green","cyan","blue","magenta"];
     let lums=["light","normal","dark"];
-    let ops=[[()=>console.log("nothing"),add,divide,greater,duplicate,()=>console.log("inchar")],
+    let ops=[[()=>console.log("nothing"),add,divide,greater,duplicate,inChar],
             [push,subtract,modulo,pointer,roll,outNum],
-            [pop,multiply,not,switchCC,()=>console.log("innum"),outChar]]
+            [pop,multiply,not,switchCC,inNum,outChar]]
     let hueval,lumval;
     if(formerlight=="white"||light=="white"){
         return ()=>{};
@@ -387,36 +396,4 @@ console.log(stack);
 roll();
 console.log(stack);
 */
-programReading('Piet_hello.png');
-
-/*
-void PCalcStack::instrRoll()
-{
-	std::list<int> tmp;
-	int loop_count = values.front();
-	values.pop_front();
-	int depth = values.front();
-	values.pop_front();
-	if (depth > 0) {
-		for (int i = 0; i < depth; i++) {
-			tmp.push_back(values.front());
-			values.pop_front();
-		}
-		if (loop_count > 0) {
-			for (int i = loop_count; i > 0; i--) {
-				tmp.push_back(tmp.front());
-				tmp.pop_front();
-			}
-		} else {
-			for (int i = loop_count; i < 0; i++) {
-				tmp.push_front(tmp.back());
-				tmp.pop_back();
-			}
-		}
-		for (int i = 0; i < depth; i++) {
-			values.push_front(tmp.back());
-			tmp.pop_back();
-		}
-	}
-}
-*/
+programReading('euclid_clint_big.png');
