@@ -2,8 +2,9 @@ var pixels = require('image-pixels');
 
 var cc=1; // values of cc -> -1 for left 1 for right
 var dp=0; // values of dp 0-> right 1-> bottom , 2-> left 3->top
-var stack = [10 ,100 ,108 ,108  , 3  , 3  , 3   ,2]; //Program stack
+var stack=[] //Program stack
 var codelSize=1;
+var pixelsSize=121;
  
 async function getData(proginput){
     var {data, width, height} = await pixels(proginput);
@@ -63,7 +64,7 @@ function hexToHueLum(hexcode){
 
 {
     function push(){
-        stack.push(codelSize);
+        stack.push(codelSize/pixelsSize);
     }
     
     function pop(){
@@ -315,7 +316,7 @@ function floodfill(startX,startY,imageIN,color,cc,dp){
             }
         });
     }
-    return [getExtreme(positions,cc,dp),positions.length];
+    return [getExtreme(positions,cc,dp),[positions.length]];
 }
 
 
@@ -331,8 +332,8 @@ function readPiet(imageArray){
         let checkingRoutes=true;
         let changecc=true;
         while(checkingRoutes){
-            let [flf,codelSize] = floodfill(x,y,imageArray,imageArray[x][y],cc,dp);
-        
+            let [flf,yo] = floodfill(x,y,imageArray,imageArray[x][y],cc,dp);
+            codelSize=yo;
             newx=flf[0];
             newy=flf[1];
             switch (dp) {
@@ -371,7 +372,6 @@ function readPiet(imageArray){
             x=newx;
             y=newy;
             let [cl,ch]=imageArray[x][y];
-          //  console.log(stack,codelSize);
             getOperation(pl,ph,cl,ch)();
         }
         
@@ -387,7 +387,7 @@ console.log(stack);
 roll();
 console.log(stack);
 */
-programReading('helloworld.gif');
+programReading('Piet_hello.png');
 
 /*
 void PCalcStack::instrRoll()

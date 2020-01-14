@@ -46,3 +46,7 @@ My first objective was to print out a calendar, here it is:
    - Hell  ,   l$l
 - 12/01/2020
    - Hello, world! , one program sort of works
+- 13/01/2020
+   - Didn't do much, searched for errors
+- 14/01/2020
+   - The first program works
