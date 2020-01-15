@@ -54,7 +54,8 @@ let myCalendar = [
     "Hell  ,   l$l",
     "Hello, world! , one program sort of works",
     "Didn't do much, searched for errors",
-    "The first program works"
+    "The first program works",
+    "logged more stuff, alphabet Printing works"
 ]
 
 function writeToMD(){
