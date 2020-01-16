@@ -52,3 +52,5 @@ My first objective was to print out a calendar, here it is:
    - The first program works
 - 15/01/2020
    - logged more stuff, alphabet Printing works
+- 16/01/2020
+   - fixed the stopping of the program

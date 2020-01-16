@@ -1,6 +1,8 @@
 var pixels = require('image-pixels');
 var readlineSync = require('readline-sync');
 
+var progName="japh.png"
+var debug=true;
 var cc=1; // values of cc -> -1 for left 1 for right
 var dp=0; // values of dp 0-> right 1-> bottom , 2-> left 3->top
 var stack=[] //Program stack
@@ -66,33 +68,33 @@ function hexToHueLum(hexcode){
 {
     function push(){
         stack.push(codelSize/pixelsSize);
-        console.log("push ",stack);
+        if(debug) console.log("push ",stack);
     }
     
     function pop(){
         stack.pop();
-        console.log("pop ",stack);
+        if(debug) console.log("pop ",stack);
     }
     
     function add(){
         let a=stack.pop();
         let b=stack.pop();
         stack.push(a+b);
-        console.log("add ",stack);
+        if(debug) console.log("add ",stack);
     }
     
     function subtract(){
         let a=stack.pop();
         let b=stack.pop();
         stack.push(b-a);
-        console.log("subtract ",stack);
+        if(debug) console.log("subtract ",stack);
     }
     
     function multiply(){
         let a=stack.pop();
         let b=stack.pop();
         stack.push(a*b);
-        console.log("multiply ",stack);
+        if(debug) console.log("multiply ",stack);
     }
     
     function divide(){
@@ -101,14 +103,14 @@ function hexToHueLum(hexcode){
         if(a!=0){
             stack.push(Math.round(b/a));
         }
-        console.log("divide ",stack);
+        if(debug) console.log("divide ",stack);
     }
     
     function modulo(){
         let a=stack.pop();
         let b=stack.pop();
         stack.push(b%a);
-        console.log("modulo ",stack);
+        if(debug) console.log("modulo ",stack);
     }
     
     function not(){
@@ -118,7 +120,7 @@ function hexToHueLum(hexcode){
         }else{
             stack.push(0);
         }
-        console.log("not ",stack);
+        if(debug) console.log("not ",stack);
     }
     
     function greater(){
@@ -129,13 +131,13 @@ function hexToHueLum(hexcode){
         }else{
             stack.push(0);
         }
-        console.log("greater ",stack);
+        if(debug) console.log("greater ",stack);
     }
     
     function pointer(){
         let a=stack.pop();
         dp=(dp+a)%4;
-        console.log("pointer ",stack);
+        if(debug) console.log("pointer ",stack);
     }
     
     function switchCC(){
@@ -143,34 +145,34 @@ function hexToHueLum(hexcode){
         if(Math.abs(a)%2!=0){
             cc=cc*(-1);
         }
-        console.log("switchCC ",stack);
+        if(debug) console.log("switchCC ",stack);
     }
     
     function duplicate(){
         let a=stack.pop();
         stack.push(a);
         stack.push(a);
-        console.log("duplicate ",stack);
+        if(debug) console.log("duplicate ",stack);
     }
 
     function outChar(){
         console.log(String.fromCharCode(stack.pop()));
-        console.log("outChar ",stack);
+        if(debug) console.log("outChar ",stack);
     }
 
     function outNum(){
         console.log(stack.pop());
-        console.log("outNum ",stack);
+        if(debug) console.log("outNum ",stack);
     }
 
     function inNum(){
         stack.push(readlineSync.question('Number input requested: '));
-        console.log("inNum ",stack);
+        if(debug) console.log("inNum ",stack);
     }
 
     function inChar(){
         stack.push(readlineSync.question('Char input requested: ').charCodeAt(0));
-        console.log("inChar ",stack);
+        if(debug) console.log("inChar ",stack);
     }
 
     function roll(){
@@ -198,7 +200,8 @@ function hexToHueLum(hexcode){
 	    	for (let i = 0; i < depth; i++) {
 	    		stack.push(tmp.pop());
 	    	}
-	    }   
+        }   
+        if(debug) console.log("roll ",stack);
     }
 }
     
@@ -361,6 +364,7 @@ function readPiet(imageArray){
             codelSize=yo;
             newx=flf[0];
             newy=flf[1];
+            if(debug) console.log(x,y,newx,newy);
             switch (dp) {
                 case 0:
                     newy++;
@@ -386,8 +390,13 @@ function readPiet(imageArray){
                     changecc=true;
                     dp=(dp+1)%4;
                 }
+                if(dp==(dpBuffer+2)%4){
+                    changecc=true;
+                    dp=(dp+1)%4;
+                }
                 if(cc==ccBuffer&&dp==dpBuffer){
                     keepRunning=false;
+                    checkingRoutes=false;
                 }
             }else{
                 checkingRoutes=false;
@@ -407,9 +416,4 @@ async function programReading(imagePietProgram){
     let image = await getData(imagePietProgram);
     readPiet(image);
 }
-/*
-console.log(stack);
-roll();
-console.log(stack);
-*/
-programReading('japh.png');
+programReading(progName);
