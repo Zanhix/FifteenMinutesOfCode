@@ -56,7 +56,8 @@ let myCalendar = [
     "Didn't do much, searched for errors",
     "The first program works",
     "logged more stuff, alphabet Printing works",
-    "fixed the stopping of the program"
+    "fixed the stopping of the program",
+    "tried to implement white blocks handeling"
 ]
 
 function writeToMD(){

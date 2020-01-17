@@ -54,3 +54,5 @@ My first objective was to print out a calendar, here it is:
    - logged more stuff, alphabet Printing works
 - 16/01/2020
    - fixed the stopping of the program
+- 17/01/2020
+   - tried to implement white blocks handeling
