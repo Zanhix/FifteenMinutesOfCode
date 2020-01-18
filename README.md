@@ -56,3 +56,5 @@ My first objective was to print out a calendar, here it is:
    - fixed the stopping of the program
 - 17/01/2020
    - tried to implement white blocks handeling
+- 18/01/2020
+   - worked on my website instead, got tired
