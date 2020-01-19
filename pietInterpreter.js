@@ -1,14 +1,18 @@
 var pixels = require('image-pixels');
 var readlineSync = require('readline-sync');
 
-var progName="japh.png"
-var debug=true;
 var cc=1; // values of cc -> -1 for left 1 for right
 var dp=0; // values of dp 0-> right 1-> bottom , 2-> left 3->top
 var stack=[] //Program stack
 var codelSize=1;
-var pixelsSize=16;
  
+var progName="Piet_hello.png"
+var debug=true;
+var pixelsSize=1;
+
+programReading(progName);
+
+
 async function getData(proginput){
     var {data, width, height} = await pixels(proginput);
     let convertedData=[];
@@ -382,7 +386,9 @@ function readPiet(imageArray){
                 default:
                     break;
             }
+            
             if(imageArray[newx]!=undefined && imageArray[newx][newy]!=undefined && imageArray[newx][newy][0]=="white"){
+                if (debug) console.log(imageArray[newx][newy])
                 while(imageArray[newx]!=undefined && imageArray[newx][newy]!=undefined &&imageArray[newx][newy][0]=="white"){
                     switch (dp) {
                         case 0:
@@ -402,6 +408,25 @@ function readPiet(imageArray){
                             break;
                     }
                 }
+                
+                    switch (dp) {
+                        case 0:
+                            newy--;
+                            break;
+                        case 1:
+                            newx--;
+                            break;
+                        case 2:
+                            newy++;
+                            break;
+                        case 3:
+                            newx++;
+                            break;
+                    
+                        default:
+                            break;
+                    }
+                
             }
             if(imageArray[newx]==undefined||imageArray[newx][newy]==undefined||imageArray[newx][newy][0]=="black"){
                 if(changecc){

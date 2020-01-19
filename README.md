@@ -58,3 +58,5 @@ My first objective was to print out a calendar, here it is:
    - tried to implement white blocks handeling
 - 18/01/2020
    - worked on my website instead, got tired
+- 19/01/2020
+   - white block is hard
