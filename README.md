@@ -60,3 +60,5 @@ My first objective was to print out a calendar, here it is:
    - worked on my website instead, got tired
 - 19/01/2020
    - white block is hard
+- 20/01/2020
+   - went on code wars because i booted on windows
