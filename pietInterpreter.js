@@ -7,7 +7,7 @@ var stack=[] //Program stack
 var codelSize=1;
  
 var progName="Piet_hello.png"
-var debug=true;
+var debug=false;
 var pixelsSize=1;
 
 programReading(progName);
@@ -358,12 +358,13 @@ function readPiet(imageArray){
     let keepRunning=true;
     while(keepRunning){
         let [pl,ph]=imageArray[x][y];
-        let ccBuffer=cc;
         let newx,newy;
-        let dpBuffer=dp;
         let checkingRoutes=true;
-        let changecc=true;
+        let attempts=0;
+        let isWhite=false;
         while(checkingRoutes){
+            isWhite=false;
+            let isBlack=false;
             let [flf,yo] = floodfill(x,y,imageArray,imageArray[x][y],cc,dp);
             codelSize=yo;
             newx=flf[0];
@@ -386,8 +387,9 @@ function readPiet(imageArray){
                 default:
                     break;
             }
-            
-            if(imageArray[newx]!=undefined && imageArray[newx][newy]!=undefined && imageArray[newx][newy][0]=="white"){
+            if(imageArray[newx]==undefined||imageArray[newx][newy]==undefined||imageArray[newx][newy][0]=="black"){
+                isBlack=true;
+            }else if(imageArray[newx]!=undefined && imageArray[newx][newy]!=undefined && imageArray[newx][newy][0]=="white"){
                 if (debug) console.log(imageArray[newx][newy])
                 while(imageArray[newx]!=undefined && imageArray[newx][newy]!=undefined &&imageArray[newx][newy][0]=="white"){
                     switch (dp) {
@@ -408,53 +410,36 @@ function readPiet(imageArray){
                             break;
                     }
                 }
-                
-                    switch (dp) {
-                        case 0:
-                            newy--;
-                            break;
-                        case 1:
-                            newx--;
-                            break;
-                        case 2:
-                            newy++;
-                            break;
-                        case 3:
-                            newx++;
-                            break;
-                    
-                        default:
-                            break;
-                    }
-                
+                isWhite=true;
+                if(imageArray[newx]==undefined||imageArray[newx][newy]==undefined||imageArray[newx][newy][0]=="black"){
+                    isBlack=true;
+                }
             }
-            if(imageArray[newx]==undefined||imageArray[newx][newy]==undefined||imageArray[newx][newy][0]=="black"){
-                if(changecc){
+            if(isBlack){
+                attempts++;
+                if(attempts%2!=0){
                     cc=cc*(-1);
-                    changecc=false;
                 }else{
-                    changecc=true;
                     dp=(dp+1)%4;
                 }
-                if(dp==(dpBuffer+2)%4){
-                    changecc=true;
-                    dp=(dp+1)%4;
-                }
-                if(cc==ccBuffer&&dp==dpBuffer){
+
+                if(attempts==8){
                     keepRunning=false;
                     checkingRoutes=false;
                 }
             }else{
+                x=newx;
+                y=newy;
                 checkingRoutes=false;
             }
+            
         }
         if(keepRunning){
-            x=newx;
-            y=newy;
-            let [cl,ch]=imageArray[x][y];
-            getOperation(pl,ph,cl,ch)();
+            if(!isWhite){
+                let [cl,ch]=imageArray[x][y];
+                getOperation(pl,ph,cl,ch)();
+            }
         }
-        
     }
 }
 
